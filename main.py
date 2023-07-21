@@ -57,7 +57,6 @@ vectordb = Chroma(persist_directory=str(embeddings_path), embedding_function=emb
 
 llm_name = "gpt-3.5-turbo"
 llm = ChatOpenAI(model_name=llm_name, temperature=0)
-qa_chain_no_context = RetrievalQA.from_chain_type(llm, retriever=vectordb.as_retriever())
 template = """Use also the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer. Use four sentences maximum. Keep the answer as concise as possible. 
 {context}
 Question: {question}
@@ -95,13 +94,21 @@ qa_chain_with_context = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": qa_chain_prompt}
 )
 
-
+# Commented out in order to show the full exception
+"""
 def run_query_with_context(query: dict) -> dict:
     try:
         res = qa_chain_with_context(query)
     except Exception as ex:
         info(f'Query with context failed with exception {ex}')
         return {'query': query, 'result': 'ERROR!'}
+    info(f'Query with context completed')
+    return res
+"""
+
+
+def run_query_with_context(query: dict) -> dict:
+    res = qa_chain_with_context(query)
     info(f'Query with context completed')
     return res
 
