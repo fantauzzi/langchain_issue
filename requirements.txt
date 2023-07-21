@@ -1,0 +1,8 @@
+langchain
+tiktoken
+lark
+hydra-core
+python-dotenv
+tqdm
+chromadb
+openai
